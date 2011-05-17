@@ -6,4 +6,5 @@ module Appfigures
 end
 
 require 'appfigures/user'
+require 'appfigures/data'
 require 'appfigures/sale'
