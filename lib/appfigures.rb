@@ -8,3 +8,4 @@ end
 require 'appfigures/user'
 require 'appfigures/data'
 require 'appfigures/sale'
+require 'appfigures/rank'
