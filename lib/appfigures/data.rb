@@ -6,20 +6,24 @@ module Appfigures
     base_uri API_URL
     format :json
     
-    def self.categories
-      get("/data/categories")
+    def initialize(username, password)
+      @auth = {:username => username, :password => password}
     end
     
-    def self.stores
-      get("/data/stores")
+    def categories
+      self.class.get("/data/categories", {:basic_auth => @auth})
     end
     
-    def self.languages
-      get("/data/languages")
+    def stores
+      self.class.get("/data/stores", {:basic_auth => @auth})
     end
     
-    def self.currencies
-      get("/data/currencies")
+    def languages
+      self.class.get("/data/languages", {:basic_auth => @auth})
+    end
+    
+    def currencies
+      self.class.get("/data/currencies", {:basic_auth => @auth})
     end
 
   end

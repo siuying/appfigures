@@ -6,16 +6,20 @@ module Appfigures
     base_uri API_URL
     format :json
     
-    def self.details(email)
-      get("/users/#{email}")
+    def initialize(username, password)
+      @auth = {:username => username, :password => password}
+    end
+
+    def details(email=nil)
+      self.class.get("/users/#{email||@auth[:username]}", {:basic_auth => @auth})
     end
     
-    def self.apps(email)
-      get("/users/#{email}/apps")
+    def apps(email=nil)
+      self.class.get("/users/#{email||@auth[:username]}/apps", {:basic_auth => @auth})
     end
     
-    def self.external(email)
-      get("/users/#{email}/itc_accounts")      
+    def external(email=nil)
+      self.class.get("/users/#{email||@auth[:username]}/itc_accounts", {:basic_auth => @auth})      
     end
   end
 end

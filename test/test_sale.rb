@@ -19,24 +19,24 @@ class TestSale < Test::Unit::TestCase
     assert_not_equal("", @config[:username], "you must configure username")
     assert_not_equal("", @config[:password], "you must configure password")
 
-    Appfigures::Sale.basic_auth @config[:username], @config[:password]
-    Appfigures::User.basic_auth @config[:username], @config[:password]
+    @sale = Appfigures::Sale.new @config[:username], @config[:password]
+    @user = Appfigures::User.new @config[:username], @config[:password]
     
     @day_minutes_one = (Time.now - 24*60*60).strftime("%Y-%m-%d")
     @day_minutes_two = (Time.now - 2*24*60*60).strftime("%Y-%m-%d")
   end
 
   def test_sales
-    report = Appfigures::Sale.sales("apps", @day_minutes_two, @day_minutes_one)
+    report = @sale.sales("apps", @day_minutes_two, @day_minutes_one)
     assert_not_nil(report, "sales report (basic) should be okay")
     assert_kind_of(Hash, report)
 
-    apps = Appfigures::User.apps(@config[:username])
+    apps = @user.apps(@config[:username])
     first_app = apps[apps.keys.first]
     assert_kind_of(Hash, first_app)
 
     param = {:query => {:apps => first_app["id"]}}  
-    one_app_report = Appfigures::Sale.sales("apps", @day_minutes_two, @day_minutes_one, param)
+    one_app_report = @sale.sales("apps", @day_minutes_two, @day_minutes_one, param)
     assert_not_nil(one_app_report, "sales report (one app only) should be okay")
   end
   

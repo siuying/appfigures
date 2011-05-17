@@ -19,29 +19,29 @@ class TestData < Test::Unit::TestCase
     assert_not_equal("", @config[:username], "you must configure username")
     assert_not_equal("", @config[:password], "you must configure password")
 
-    Appfigures::Data.basic_auth @config[:username], @config[:password]
+    @data_service = Appfigures::Data.new @config[:username], @config[:password]
   end
 
   def test_categories
-    data = Appfigures::Data.categories
+    data = @data_service.categories
     assert_not_nil(data)
     assert_kind_of(Hash, data)
   end
 
   def test_stores
-    data = Appfigures::Data.stores
+    data = @data_service.stores
     assert_not_nil(data)
     assert_kind_of(Hash, data)
   end
 
   def test_languages
-    data = Appfigures::Data.languages
+    data = @data_service.languages
     assert_not_nil(data)
     assert_kind_of(Hash, data)
   end
 
   def test_currencies
-    data = Appfigures::Data.currencies
+    data = @data_service.currencies
     assert_not_nil(data)
     assert_kind_of(Array, data)
   end

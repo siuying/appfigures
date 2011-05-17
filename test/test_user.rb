@@ -19,24 +19,24 @@ class TestUser < Test::Unit::TestCase
     assert_not_equal("", @config[:username], "you must configure username")
     assert_not_equal("", @config[:password], "you must configure password")
 
-    Appfigures::User.basic_auth @config[:username], @config[:password]
+    @user = Appfigures::User.new @config[:username], @config[:password]
   end
 
-  def test_user_details
-    user = Appfigures::User.details(@config[:username])
-    assert_not_nil(user)
+  def test_details
+    details = @user.details(@config[:username])
+    assert_not_nil(details)
 
-    assert_not_nil(user["region"])
-    assert_not_nil(user["id"])
-    assert_not_nil(user["account"])
-    assert_not_nil(user["apps"])
+    assert_not_nil(details["region"])
+    assert_not_nil(details["id"])
+    assert_not_nil(details["account"])
+    assert_not_nil(details["apps"])
 
-    assert_kind_of(Hash, user["account"])
-    assert_kind_of(Array, user["apps"])
+    assert_kind_of(Hash, details["account"])
+    assert_kind_of(Array, details["apps"])
   end
   
-  def test_user_apps
-    apps = Appfigures::User.apps(@config[:username])
+  def test_apps
+    apps = @user.apps(@config[:username])
     assert_not_nil(apps)
     assert_kind_of(Hash, apps)
 
@@ -48,16 +48,24 @@ class TestUser < Test::Unit::TestCase
     assert_not_nil(first_app["id"])
   end
 
-  def test_user_external
-    acct = Appfigures::User.external(@config[:username])
+  def test_external
+    details = @user.details(@config[:username])
+    acct = @user.external(@config[:username])
     assert_not_nil(acct)
-    assert_kind_of(Hash, acct)
+    
+    if details["role"] == "admin"
+      assert_kind_of(Hash, acct)
+      assert(acct.size > 0, "account should have at least one itc_account")
+      first_acct = acct[acct.keys.first]
+      assert_kind_of(Hash, first_acct)
+      assert_not_nil(first_acct["account_id"])
+      assert_not_nil(first_acct["id"])
 
-    assert(acct.size > 0, "account should have at least one itc_account")
-    first_acct = acct[acct.keys.first]
-    assert_kind_of(Hash, first_acct)
-    assert_not_nil(first_acct["account_id"])
-    assert_not_nil(first_acct["id"])
+    else
+      assert_equal(acct.parsed_response["additional"], "You do not have permission to access this resource.")    
+
+    end
+    
   end
 
   
