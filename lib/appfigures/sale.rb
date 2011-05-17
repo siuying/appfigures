@@ -7,7 +7,7 @@ module Appfigures
     format :json
 
     def self.sales(type, start_date, end_date, options={})
-      get('/sales/#{type}/#{start_date}/#{end_date}/', :query => options)
+      get("/sales/#{type}/#{start_date}/#{end_date}/", :query => options)
     end
   end
 end

@@ -1,4 +1,6 @@
 source 'http://rubygems.org'
 
-gem "rake"
+gem "bundler"
 gem "httparty"
+
+gem "rake"
