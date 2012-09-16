@@ -5,8 +5,13 @@ module Appfigures
     include HTTParty
     base_uri API_URL
     format :json
-    
-    TYPE = {:APPS => "apps", :DATES => "dates", :COUNTRIES => "countries", :APPS_DATES => "apps+dates", :DATES_APPS => "dates+apps"}
+
+    TYPE = {:DATES => "dates", :COUNTRIES => "countries", :PRODUCTS => "products", :REGION => "regions",
+      :DATES_PRODUCTS => "dates+products", :PRODUCTS_DATES => "products+dates", 
+      :COUNTRIES_PRODUCTS => "countries+products", :PRODUCTS_COUNTRIES => "products+countries",
+      :COUNTRIES_DATES => "countries+dates", :DATES_COUNTRIES => "dates+countries"
+    }
+
     DATASOURCE = {:DAILY => "daily", :WEEKLY => "weekly", :MONTHLY => "monthly"}
     
     def initialize(username, password)
@@ -15,11 +20,11 @@ module Appfigures
     
     # Generating a By App, By Country, or By Date Sales Report
     # options[:query] can be data_source, apps or country
-    def sales(type, start_date, end_date, options={})
+    def sales(type, start_date, end_date, product_ids, options={})
       raise ArgumentError, "Type must be one of TYPE: #{TYPE.values.join(", ")}" unless TYPE.values.index(type)
       raise ArgumentError, "Type must be one of DATASOURCE: #{DATASOURCE.values.join(", ")}" if (options[:data_source] && !DATASOURCE.values.index(options[:data_source]))
 
-      options.merge!({:basic_auth => @auth})
+      options.merge!({:basic_auth => @auth, :product_ids => product_ids.join(";")})
       url = "/sales/#{type}/#{start_date}/#{end_date}/"    
       self.class.get(url, options)
     end

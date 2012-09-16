@@ -29,14 +29,14 @@ class TestUser < Test::Unit::TestCase
     assert_not_nil(details["region"])
     assert_not_nil(details["id"])
     assert_not_nil(details["account"])
-    assert_not_nil(details["apps"])
+    assert_not_nil(details["products"])
 
     assert_kind_of(Hash, details["account"])
-    assert_kind_of(Array, details["apps"])
+    assert_kind_of(Array, details["products"])
   end
   
   def test_apps
-    apps = @user.apps(@config[:username])
+    apps = @user.products(@config[:username])
     assert_not_nil(apps)
     assert_kind_of(Hash, apps)
 
@@ -47,26 +47,5 @@ class TestUser < Test::Unit::TestCase
     assert_not_nil(first_app["name"])
     assert_not_nil(first_app["id"])
   end
-
-  def test_external
-    details = @user.details(@config[:username])
-    acct = @user.external(@config[:username])
-    assert_not_nil(acct)
-    
-    if details["role"] == "admin"
-      assert_kind_of(Hash, acct)
-      assert(acct.size > 0, "account should have at least one itc_account")
-      first_acct = acct[acct.keys.first]
-      assert_kind_of(Hash, first_acct)
-      assert_not_nil(first_acct["account_id"])
-      assert_not_nil(first_acct["id"])
-
-    else
-      assert_equal(acct.parsed_response["additional"], "You do not have permission to access this resource.")    
-
-    end
-    
-  end
-
   
 end

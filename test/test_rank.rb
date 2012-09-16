@@ -6,7 +6,7 @@ require "bundler"
 Bundler.require(:default)
 
 require "./lib/appfigures"
-
+require 'uri'
 class TestRank < Test::Unit::TestCase
   def setup
     path = File.expand_path(File.dirname(__FILE__))
@@ -26,9 +26,8 @@ class TestRank < Test::Unit::TestCase
     @day_minutes_two = (Time.now - 2*24*60*60).strftime("%Y-%m-%d")
   end
 
-  def test_sales
-
-    apps = @user.apps(@config[:username])
+  def test_ranks
+    apps = @user.products(@config[:username])
     first_app = apps[apps.keys.first]
     assert_kind_of(Hash, first_app)
 
@@ -36,9 +35,10 @@ class TestRank < Test::Unit::TestCase
     assert_not_nil(ranks, "ranks report should be okay")
   end
   
-  def test_sales_complex
-    apps = @user.apps(@config[:username])
-    ranks = @rank.ranks(apps.keys.join(";"), "daily", @day_minutes_two, @day_minutes_one)
+  def test_ranks_complex
+    apps = @user.products(@config[:username])
+    apps = apps.keys[0..10].join(";")
+    ranks = @rank.ranks(apps, "daily", @day_minutes_two, @day_minutes_one)
     assert_not_nil(ranks, "ranks report should be okay")
   end
 end

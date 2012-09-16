@@ -27,16 +27,12 @@ class TestSale < Test::Unit::TestCase
   end
 
   def test_sales
-    report = @sale.sales("apps", @day_minutes_two, @day_minutes_one)
-    assert_not_nil(report, "sales report (basic) should be okay")
-    assert_kind_of(Hash, report)
-
-    apps = @user.apps(@config[:username])
+    apps = @user.products(@config[:username])
     first_app = apps[apps.keys.first]
     assert_kind_of(Hash, first_app)
 
     param = {:query => {:apps => first_app["id"]}}  
-    one_app_report = @sale.sales("apps", @day_minutes_two, @day_minutes_one, param)
+    one_app_report = @sale.sales("dates", @day_minutes_two, @day_minutes_one, [first_app["id"]], param)
     assert_not_nil(one_app_report, "sales report (one app only) should be okay")
   end
   

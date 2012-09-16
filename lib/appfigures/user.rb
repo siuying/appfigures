@@ -1,4 +1,5 @@
 require 'httparty'
+require 'uri'
 
 module Appfigures
   class User
@@ -10,16 +11,14 @@ module Appfigures
       @auth = {:username => username, :password => password}
     end
 
-    def details(email=nil)
-      self.class.get("/users/#{email||@auth[:username]}", {:basic_auth => @auth})
+    def details(email=@auth[:username])
+      email = URI.escape(email)
+      self.class.get("/users/#{email}", {:basic_auth => @auth})
     end
     
-    def apps(email=nil)
-      self.class.get("/users/#{email||@auth[:username]}/apps", {:basic_auth => @auth})
-    end
-    
-    def external(email=nil)
-      self.class.get("/users/#{email||@auth[:username]}/itc_accounts", {:basic_auth => @auth})      
+    def products(email=@auth[:username])
+      email = URI.escape(email)
+      self.class.get("/users/#{email}/products", {:basic_auth => @auth})
     end
   end
 end

@@ -13,7 +13,7 @@ module Appfigures
     # Generating a Ranks Report
     def ranks(app_id, granularity, start_date, end_date, options = {})
       options.merge!({:basic_auth => @auth})
-      self.class.get("/reports/ranks/#{app_id}/#{granularity}/#{start_date}/#{end_date}/", options)
+      self.class.get("/ranks/#{app_id}/#{granularity}/#{start_date}/#{end_date}/", options)
     end
   end
 end
