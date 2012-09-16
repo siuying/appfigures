@@ -24,16 +24,28 @@ class TestSale < Test::Unit::TestCase
     
     @day_minutes_one = (Time.now - 24*60*60).strftime("%Y-%m-%d")
     @day_minutes_two = (Time.now - 2*24*60*60).strftime("%Y-%m-%d")
+
+    @apps = @user.products(@config[:username])
+    @first_app = @apps[@apps.keys.first]
+    assert_kind_of(Hash, @first_app)
+
   end
 
   def test_sales
-    apps = @user.products(@config[:username])
-    first_app = apps[apps.keys.first]
-    assert_kind_of(Hash, first_app)
-
-    param = {:query => {:apps => first_app["id"]}}  
-    one_app_report = @sale.sales("dates", @day_minutes_two, @day_minutes_one, [first_app["id"]], param)
+    one_app_report = @sale.sales("dates", @day_minutes_two, @day_minutes_one, [@first_app["id"]])
     assert_not_nil(one_app_report, "sales report (one app only) should be okay")
+  end
+
+  def test_alltime
+    alltime_report = @sale.alltime_sales("products", @first_app["id"])
+    assert_not_nil(alltime_report, "all time report should be okay")
+    assert_kind_of(Hash, alltime_report)
+  end
+
+  def test_region
+    alltime_report = @sale.region_sales(@day_minutes_two, @day_minutes_one)
+    assert_not_nil(alltime_report, "all time report should be okay")
+    assert_kind_of(Hash, alltime_report)
   end
   
 end
