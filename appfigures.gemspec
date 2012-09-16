@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "appfigures"
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Francis Chong"]
@@ -20,12 +20,14 @@ Gem::Specification.new do |s|
     "VERSION",
     "appfigures.gemspec",
     "lib/appfigures.rb",
+    "lib/appfigures/archive.rb",
     "lib/appfigures/data.rb",
     "lib/appfigures/external.rb",
     "lib/appfigures/rank.rb",
     "lib/appfigures/sale.rb",
     "lib/appfigures/user.rb",
     "test/appfigures_fixture.yml.default",
+    "test/test_archive.rb",
     "test/test_data.rb",
     "test/test_external.rb",
     "test/test_rank.rb",
@@ -34,7 +36,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "https://github.com/siuying/appfigures"
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.15"
+  s.rubygems_version = "1.8.10"
   s.summary = "AppFigures API"
 
   if s.respond_to? :specification_version then
