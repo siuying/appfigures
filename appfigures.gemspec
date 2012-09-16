@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
     "Gemfile.lock",
     "Rakefile",
     "VERSION",
+    "appfigures.gemspec",
     "lib/appfigures.rb",
     "lib/appfigures/data.rb",
     "lib/appfigures/external.rb",
