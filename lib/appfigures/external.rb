@@ -10,6 +10,8 @@ module Appfigures
       @auth = {:username => username, :password => password}
     end
 
+    # get list of external accounts
+    # requires admin
     def external
       self.class.get("/external_accounts", {:basic_auth => @auth})      
     end

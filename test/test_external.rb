@@ -7,7 +7,7 @@ Bundler.require(:default)
 
 require "./lib/appfigures"
 
-class TestUser < Test::Unit::TestCase
+class TestExternal < Test::Unit::TestCase
   # def test_external
   #   path = File.expand_path(File.dirname(__FILE__))
   #   @config = YAML::load(open("#{path}/appfigures_fixture.yml"))
