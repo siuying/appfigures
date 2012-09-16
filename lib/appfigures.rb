@@ -2,7 +2,7 @@ path = File.expand_path(File.dirname(__FILE__))
 $:.unshift(path) unless $:.include?(path)
 
 module Appfigures
-  API_URL = "https://api.appfigures.com/v1"
+  API_URL = "https://api.appfigures.com/v1.1"
 end
 
 require 'appfigures/user'

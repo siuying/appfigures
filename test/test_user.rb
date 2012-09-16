@@ -5,13 +5,13 @@ require "rubygems"
 require "bundler"
 Bundler.require(:default)
 
-require "lib/appfigures"
+require "./lib/appfigures"
 
 class TestUser < Test::Unit::TestCase
   def setup
     path = File.expand_path(File.dirname(__FILE__))
     @config = YAML::load(open("#{path}/appfigures_fixture.yml"))
-
+    
     assert_not_nil(@config, "you must create appfigures_fixture.yml")
     assert_not_nil(@config[:username], "you must configure username")
     assert_not_nil(@config[:password], "you must configure password")

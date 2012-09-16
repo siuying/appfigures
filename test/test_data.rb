@@ -5,7 +5,7 @@ require "rubygems"
 require "bundler"
 Bundler.require(:default)
 
-require "lib/appfigures"
+require "./lib/appfigures"
 
 class TestData < Test::Unit::TestCase
   def setup
